@@ -1,0 +1,15 @@
+'use strict';
+
+const config = {
+    hikvision: {
+         options: {
+            host	: '192.168.100.1',
+            port 	: '80',
+            user 	: 'yyyyy',
+            pass 	: 'xxxx',
+            log 	: false
+        }
+    }
+}
+
+module.exports = config;

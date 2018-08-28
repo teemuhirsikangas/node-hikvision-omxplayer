@@ -1,0 +1,30 @@
+{
+  "name": "hikvision-omxplayer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/teemuhirsikangas/node-hikvision-omxplayer.git"
+  },
+  "keywords": [
+    "hikvision",
+    "omxplayer",
+    "raspberry",
+    "node"
+  ],
+  "author": "Teemu Hirsikangas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/teemuhirsikangas/node-hikvision-omxplayer/issues"
+  },
+  "homepage": "https://github.com/teemuhirsikangas/node-hikvision-omxplayer#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "node-hikvision-api": "git+https://github.com/teemuhirsikangas/node-hikvision-api.git",
+    "node-omxplayer": "^0.6.1"
+  }
+}
