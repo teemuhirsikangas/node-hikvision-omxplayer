@@ -25,7 +25,7 @@
   "dependencies": {
     "express": "^4.16.3",
     "node-hikvision-api": "git+https://github.com/teemuhirsikangas/node-hikvision-api.git",
-    "node-omxplayer": "^0.6.1",
+    "node-omxplayer": "git+https://github.com/teemuhirsikangas/node-omxplayer.git",
     "request": "^2.88.0"
   }
 }
