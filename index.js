@@ -39,4 +39,6 @@ hikvision.on('alarm', function(code,action,index) {
 
 app.get('/', (req, res) => res.send('NOP'))
 
+app.get('/health', (req, res) => res.send('OK'))
+
 app.listen(3334, () => console.log('app started on port 3334!'))
