@@ -6,14 +6,22 @@ let ipcamera = require('node-hikvision-api');
 let hikvision = new ipcamera.hikvision(config.hikvision.options);
 let Omx = require('node-omxplayer');
 let player = Omx();
-
+let motionStatus = false;
 const {user, pass, host} = config.hikvision.options;
+
+function stopPlayer() {
+
+    if(player.running && motionStatus === false) {
+        player.quit();
+    }
+}
 
 // Monitor Camera Alarms
 hikvision.on('alarm', function(code,action,index) {
 
 	if (code === 'VideoMotion' && action === 'Start') {
         console.log(' Channel ' + index + ': Video Motion Detected')
+        motionStatus = true;
         if (!player.running) {
             const stream = `rtsp://${user}:${pass}@${host}:554/Streaming/Channels/102`;
             player.newSource(stream);
@@ -22,7 +30,9 @@ hikvision.on('alarm', function(code,action,index) {
 
     if (code === 'VideoMotion'   && action === 'Stop') {
         console.log(' Channel ' + index + ': Video Motion Ended');
-        player.quit();
+        motionStatus = false;
+        //close video stream after 10 secs if no movement
+        setTimeout(stopPlayer, 10000);
 
     }
 	if (code === 'VideoMotion'   && action === 'Start')  console.log(' Channel ' + index + ': Video Motion Detected')
@@ -37,8 +47,27 @@ hikvision.on('alarm', function(code,action,index) {
 	if (code === 'VideoBlind'    && action === 'Stop')   console.log(' Channel ' + index + ': Video Unblind!')
 });
 
-app.get('/', (req, res) => res.send('NOP'))
+app.get('/', (req, res) => res.send('NOP'));
 
-app.get('/health', (req, res) => res.send('OK'))
+app.get('/health', (req, res) => res.send('OK'));
 
-app.listen(3334, () => console.log('app started on port 3334!'))
+app.listen(3334, () => console.log('app started on port 3334!'));
+
+process.on( 'SIGTERM', function () {
+    console.log( "closing omxplayer");
+    if (player.running) {
+        player.quit(); 
+    }
+ });
+
+ process.on( 'SIGINT', function () {
+    console.log( "closing omxplayer because SIGINT");
+    if (player.running) {
+        player.quit(); 
+    }
+    process.exit();
+ });
+
+ process.on('unhandledRejection', (reason, promise) => {
+    console.log('Unhandled Rejection at:', reason.stack || reason);
+  })
