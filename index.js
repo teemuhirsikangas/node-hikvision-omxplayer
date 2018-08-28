@@ -7,7 +7,7 @@ let hikvision = new ipcamera.hikvision(config.hikvision.options);
 let Omx = require('node-omxplayer');
 let player = Omx();
 
-const {pass, user, host} = config.hikvision;
+const {user, pass, host} = config.hikvision.options;
 
 // Monitor Camera Alarms
 hikvision.on('alarm', function(code,action,index) {
