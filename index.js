@@ -14,7 +14,8 @@ hikvision.on('alarm', function(code,action,index) {
 	if (code === 'VideoMotion' && action === 'Start') {
         console.log(' Channel ' + index + ': Video Motion Detected')
         if (!player.running) {
-            player.newSource(`rtsp://${user}:${pass}@${host}:554/Streaming/Channels/102`);
+            const stream = `rtsp://${user}:${pass}@${host}:554/Streaming/Channels/102`;
+            player.newSource(stream);
         }
     }
 
