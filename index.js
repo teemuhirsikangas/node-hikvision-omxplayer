@@ -2,9 +2,10 @@ const express = require('express');
 const app = express();
 const config = require('./config.js');
 
-var ipcamera = require('node-hikvision-api');
-var hikvision = new ipcamera.hikvision(config.hikvision.options);
-var player = Omx();
+let ipcamera = require('node-hikvision-api');
+let hikvision = new ipcamera.hikvision(config.hikvision.options);
+let Omx = require('node-omxplayer');
+let player = Omx();
 
 const {pass, user, host} = config.hikvision;
 
