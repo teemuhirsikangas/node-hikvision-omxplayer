@@ -6,12 +6,14 @@ let ipcamera = require('node-hikvision-api');
 let hikvision = new ipcamera.hikvision(config.hikvision.options);
 let Omx = require('node-omxplayer');
 let player = Omx();
-let motionStatus = false;
+
 const {user, pass, host} = config.hikvision.options;
+let motionStatus = false;
+let lineCrossStatus = false;
 
 function stopPlayer() {
 
-    if(player.running && motionStatus === false) {
+    if(player.running && motionStatus === false && lineCrossStatus === false) {
         player.quit();
     }
 }
@@ -32,13 +34,25 @@ hikvision.on('alarm', function(code,action,index) {
         console.log(' Channel ' + index + ': Video Motion Ended');
         motionStatus = false;
         //close video stream after 10 secs if no movement
-        setTimeout(stopPlayer, 10000);
+        setTimeout(stopPlayer, 20000);
 
     }
-	if (code === 'VideoMotion'   && action === 'Start')  console.log(' Channel ' + index + ': Video Motion Detected')
-	if (code === 'VideoMotion'   && action === 'Stop')   console.log(' Channel ' + index + ': Video Motion Ended')
-	if (code === 'LineDetection' && action === 'Start')  console.log(' Channel ' + index + ': Line Cross Detected')
-	if (code === 'LineDetection' && action === 'Stop')   console.log(' Channel ' + index + ': Line Cross Ended')
+
+	if (code === 'LineDetection' && action === 'Start') {
+        console.log(' Channel ' + index + ': Line Cross Detected');
+        lineCrossStatus = true;
+        if (!player.running) {
+            const stream = `rtsp://${user}:${pass}@${host}:554/Streaming/Channels/102`;
+            player.newSource(stream);
+        }
+    }
+	if (code === 'LineDetection' && action === 'Stop') {
+        console.log(' Channel ' + index + ': Line Cross Ended');
+        lineCrossStatus = false;
+        setTimeout(stopPlayer, 20000);
+
+    }
+
 	if (code === 'AlarmLocal'    && action === 'Start')  console.log(' Channel ' + index + ': Local Alarm Triggered: ' + index)
 	if (code === 'AlarmLocal'    && action === 'Stop')   console.log(' Channel ' + index + ': Local Alarm Ended: ' + index)
 	if (code === 'VideoLoss'     && action === 'Start')  console.log(' Channel ' + index + ': Video Lost!')
