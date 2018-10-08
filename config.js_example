@@ -12,7 +12,8 @@ const config = {
         triggers: {
             motion: true,
             line: false
-        }
+        },
+        stopAfter: 20
     }
 }
 
