@@ -8,6 +8,10 @@ const config = {
             user 	: 'yyyyy',
             pass 	: 'xxxx',
             log 	: false
+        },
+        triggers: {
+            motion: true,
+            line: false
         }
     }
 }

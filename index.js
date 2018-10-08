@@ -33,12 +33,12 @@ hikvision.on('alarm', function(code,action,index) {
     if (code === 'VideoMotion'   && action === 'Stop') {
         console.log(' Channel ' + index + ': Video Motion Ended');
         motionStatus = false;
-        //close video stream after 10 secs if no movement
-        setTimeout(stopPlayer, 20000);
+        //close video stream after x secs if no movement
+        setTimeout(stopPlayer, config.hikvision.stopAfter * 1000);
 
     }
 
-	if (code === 'LineDetection' && action === 'Start') {
+	if (config.hikvision.triggers.line && code === 'LineDetection' && action === 'Start') {
         console.log(' Channel ' + index + ': Line Cross Detected');
         lineCrossStatus = true;
         if (!player.running) {
@@ -46,10 +46,10 @@ hikvision.on('alarm', function(code,action,index) {
             player.newSource(stream);
         }
     }
-	if (code === 'LineDetection' && action === 'Stop') {
+	if (config.hikvision.triggers.line && code === 'LineDetection' && action === 'Stop') {
         console.log(' Channel ' + index + ': Line Cross Ended');
         lineCrossStatus = false;
-        setTimeout(stopPlayer, 20000);
+        setTimeout(stopPlayer, config.hikvision.stopAfter * 1000);
 
     }
 
