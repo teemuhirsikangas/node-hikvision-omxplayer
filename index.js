@@ -13,8 +13,9 @@ let lineCrossStatus = false;
 
 function stopPlayer() {
 
-    if(player.running && motionStatus === false && lineCrossStatus === false) {
-        player.quit();
+    if (player.running) {
+        console.log('Stopping omxplayer')
+        player.quit()
     }
 }
 
@@ -23,16 +24,14 @@ hikvision.on('alarm', function(code,action,index) {
 
 	if (code === 'VideoMotion' && action === 'Start') {
         console.log(' Channel ' + index + ': Video Motion Detected')
-        motionStatus = true;
         if (!player.running) {
             const stream = `rtsp://${user}:${pass}@${host}:554/Streaming/Channels/102`;
             player.newSource(stream);
         }
     }
 
-    if (code === 'VideoMotion'   && action === 'Stop') {
+    if (code === 'VideoMotion'  && action === 'Stop') {
         console.log(' Channel ' + index + ': Video Motion Ended');
-        motionStatus = false;
         //close video stream after x secs if no movement
         setTimeout(stopPlayer, config.hikvision.stopAfter * 1000);
 
@@ -40,7 +39,6 @@ hikvision.on('alarm', function(code,action,index) {
 
 	if (config.hikvision.triggers.line && code === 'LineDetection' && action === 'Start') {
         console.log(' Channel ' + index + ': Line Cross Detected');
-        lineCrossStatus = true;
         if (!player.running) {
             const stream = `rtsp://${user}:${pass}@${host}:554/Streaming/Channels/102`;
             player.newSource(stream);
@@ -48,7 +46,6 @@ hikvision.on('alarm', function(code,action,index) {
     }
 	if (config.hikvision.triggers.line && code === 'LineDetection' && action === 'Stop') {
         console.log(' Channel ' + index + ': Line Cross Ended');
-        lineCrossStatus = false;
         setTimeout(stopPlayer, config.hikvision.stopAfter * 1000);
 
     }

@@ -1,6 +1,6 @@
 {
   "name": "hikvision-omxplayer",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/teemuhirsikangas/node-hikvision-omxplayer#readme",
   "dependencies": {
-    "express": "4.16.4",
+    "express": "4.17.1",
     "node-hikvision-api": "git+https://github.com/teemuhirsikangas/node-hikvision-api.git",
     "node-omxplayer": "git+https://github.com/teemuhirsikangas/node-omxplayer.git",
     "request": "2.88.0"
