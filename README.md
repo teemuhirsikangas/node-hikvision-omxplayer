@@ -4,13 +4,12 @@ Simple app to listen hikvision alerts and to launch omxplayer when motion detect
 
 `git clone https://github.com/teemuhirsikangas/node-hikvision-omxplayer.git`
 
-Nodejs needs to be version 8 (Does not work with 10 or newer or, haven't had the time to upgrade and refactor)
 
 `sudo curl -sL https://deb.nodesource.com/setup_8.x | bash -`
 
 `node -v`
 
-v8.17.0
+v14.x
 
 `cd node-hikvision-omxplayer/`
 

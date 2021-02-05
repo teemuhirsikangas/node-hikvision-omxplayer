@@ -10,12 +10,13 @@ let player = Omx();
 const {user, pass, host} = config.hikvision.options;
 let motionStatus = false;
 let lineCrossStatus = false;
+let timeout = config.hikvision.stopAfter * 1000;
 
 function stopPlayer() {
 
     if (player.running) {
-        console.log('Stopping omxplayer')
-        player.quit()
+        console.log('Stopping omxplayer');
+        player.quit();
     }
 }
 
@@ -23,9 +24,12 @@ function stopPlayer() {
 hikvision.on('alarm', function(code,action,index) {
 
 	if (code === 'VideoMotion' && action === 'Start') {
-        console.log(' Channel ' + index + ': Video Motion Detected')
+        console.log(' Channel ' + index + ': Video Motion Detected');
+        const stream = `rtsp://${user}:${pass}@${host}:554/Streaming/Channels/102`;
         if (!player.running) {
-            const stream = `rtsp://${user}:${pass}@${host}:554/Streaming/Channels/102`;
+            player.newSource(stream);
+        } else {
+            player.quit(); //test out how fast it can resume if start stream becomes withing the setTimeout period
             player.newSource(stream);
         }
     }

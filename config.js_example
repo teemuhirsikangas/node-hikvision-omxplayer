@@ -13,7 +13,7 @@ const config = {
             motion: true,
             line: false
         },
-        stopAfter: 20
+        stopAfter: 30
     }
 }
 
