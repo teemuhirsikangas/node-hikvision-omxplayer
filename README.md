@@ -4,8 +4,7 @@ Simple app to listen hikvision alerts and to launch omxplayer when motion detect
 
 `git clone https://github.com/teemuhirsikangas/node-hikvision-omxplayer.git`
 
-
-`sudo curl -sL https://deb.nodesource.com/setup_8.x | bash -`
+`sudo curl -sL https://deb.nodesource.com/setup_14.x | bash -`
 
 `node -v`
 

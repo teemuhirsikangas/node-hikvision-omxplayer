@@ -43,8 +43,11 @@ hikvision.on('alarm', function(code,action,index) {
 
 	if (config.hikvision.triggers.line && code === 'LineDetection' && action === 'Start') {
         console.log(' Channel ' + index + ': Line Cross Detected');
+        const stream = `rtsp://${user}:${pass}@${host}:554/Streaming/Channels/102`;
         if (!player.running) {
-            const stream = `rtsp://${user}:${pass}@${host}:554/Streaming/Channels/102`;
+            player.newSource(stream);
+        } else {
+            player.quit(); //test out how fast it can resume if start stream becomes withing the setTimeout period
             player.newSource(stream);
         }
     }
